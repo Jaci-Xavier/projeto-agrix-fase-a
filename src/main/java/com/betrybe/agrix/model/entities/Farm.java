@@ -34,6 +34,8 @@ public class Farm {
    * metodos da classe Farms.
    */
   
+  public Farm() {
+  }
 
   public Long getId() {
     return id;

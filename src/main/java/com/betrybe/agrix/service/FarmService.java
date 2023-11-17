@@ -2,6 +2,7 @@ package com.betrybe.agrix.service;
 
 import com.betrybe.agrix.model.entities.Farm;
 import com.betrybe.agrix.model.repositories.FarmsRepositories;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,5 +27,13 @@ public class FarmService {
 
   public Farm createFarm(Farm farm) {
     return farmsRepository.save(farm);
+  }
+
+  /**
+   * Get all farms.
+   */
+
+  public List<Farm> getAllFarms() {
+    return farmsRepository.findAll();
   }
 }
