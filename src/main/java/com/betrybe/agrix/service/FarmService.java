@@ -74,4 +74,14 @@ public class FarmService {
     return newCrop;
   }
 
+  /**
+   * Get crops by farmId.
+   */
+
+  public List<Crop> getCropsByFarmId(Long id) {
+    Farm farm = this.getFarmById(id);
+
+    return farm.getCrops();
+  }
+
 }
