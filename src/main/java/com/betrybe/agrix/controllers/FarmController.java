@@ -37,10 +37,12 @@ public class FarmController {
    */
 
   @PostMapping
-  public ResponseEntity<Farm> createFarm(@RequestBody FarmDto farmDto) {
-    return new ResponseEntity<>(farmService.createFarm(
-      farmDto.convertToFarm()
-    ), HttpStatus.CREATED);
+  public ResponseEntity<FarmDto> createFarm(@RequestBody FarmDto farmDto) {
+    Farm farm = farmService.createFarm(farmDto.convertToFarm());
+
+    FarmDto newFarmDto = new FarmDto(farm.getId(), farm.getName(), farm.getSize());
+
+    return new ResponseEntity<>(newFarmDto, HttpStatus.CREATED);
   }
 
   /**
@@ -48,8 +50,14 @@ public class FarmController {
    */
 
   @GetMapping
-  public ResponseEntity<List<Farm>> getAllFarms() {
-    return new ResponseEntity<>(farmService.getAllFarms(), HttpStatus.OK);
+  public ResponseEntity<List<FarmDto>> getAllFarms() {
+    List<Farm> farms = farmService.getAllFarms();
+
+    List<FarmDto> farmsDto = farms.stream().map(farm -> new FarmDto(
+        farm.getId(), farm.getName(), farm.getSize()
+    )).toList();
+
+    return new ResponseEntity<>(farmsDto, HttpStatus.OK);
   }
 
   /**
@@ -57,15 +65,19 @@ public class FarmController {
    */
 
   @GetMapping("/{id}")
-  public ResponseEntity<Farm> getFarmById(@PathVariable Long id) {
-    return new ResponseEntity<>(farmService.getFarmById(id), HttpStatus.OK);
+  public ResponseEntity<FarmDto> getFarmById(@PathVariable Long id) {
+    Farm farm = farmService.getFarmById(id);
+
+    FarmDto farmDto = new FarmDto(farm.getId(), farm.getName(), farm.getSize());
+
+    return new ResponseEntity<>(farmDto, HttpStatus.OK);
   }
 
   /**
    * Create a new crop.
    */
    
-  @PostMapping("/{id}/crops")
+  @PostMapping("/{farmId}/crops")
   public ResponseEntity<CropDto> createCrop(@PathVariable Long id, @RequestBody CropDto cropDto) {
     Crop crop = farmService.createCrop(id, cropDto.convertToCrop());
 
@@ -78,7 +90,7 @@ public class FarmController {
    * Get crops by farmId.
    */
 
-  @GetMapping("/{id}/crops")
+  @GetMapping("/{farmId}/crops")
   public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long id) {
     List<Crop> crops = farmService.getCropsByFarmId(id);
 
