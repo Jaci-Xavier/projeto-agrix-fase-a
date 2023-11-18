@@ -83,7 +83,7 @@ public class FarmController {
     List<Crop> crops = farmService.getCropsByFarmId(id);
 
     List<CropDto> cropsDto = crops.stream().map(crop -> new CropDto(
-      crop.getId(), crop.getName(), crop.getPlantedArea(), id
+        crop.getId(), crop.getName(), crop.getPlantedArea(), id
     )).toList();
 
     return new ResponseEntity<>(cropsDto, HttpStatus.OK);
