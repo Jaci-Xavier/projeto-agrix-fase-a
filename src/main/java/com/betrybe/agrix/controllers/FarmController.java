@@ -78,7 +78,11 @@ public class FarmController {
    */
    
   @PostMapping("/{farmId}/crops")
-  public ResponseEntity<CropDto> createCrop(@PathVariable Long farmId, @RequestBody CropDto cropDto) {
+  public ResponseEntity<CropDto> createCrop(
+      @PathVariable Long farmId,
+      @RequestBody CropDto cropDto
+  ) {
+
     Crop crop = farmService.createCrop(farmId, cropDto.convertToCrop());
 
     CropDto newCropDto = new CropDto(crop.getId(), crop.getName(), crop.getPlantedArea(), farmId);
