@@ -78,10 +78,10 @@ public class FarmController {
    */
    
   @PostMapping("/{farmId}/crops")
-  public ResponseEntity<CropDto> createCrop(@PathVariable Long id, @RequestBody CropDto cropDto) {
-    Crop crop = farmService.createCrop(id, cropDto.convertToCrop());
+  public ResponseEntity<CropDto> createCrop(@PathVariable Long farmId, @RequestBody CropDto cropDto) {
+    Crop crop = farmService.createCrop(farmId, cropDto.convertToCrop());
 
-    CropDto newCropDto = new CropDto(crop.getId(), crop.getName(), crop.getPlantedArea(), id);
+    CropDto newCropDto = new CropDto(crop.getId(), crop.getName(), crop.getPlantedArea(), farmId);
 
     return new ResponseEntity<>(newCropDto, HttpStatus.CREATED);
   }
@@ -91,11 +91,11 @@ public class FarmController {
    */
 
   @GetMapping("/{farmId}/crops")
-  public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long id) {
-    List<Crop> crops = farmService.getCropsByFarmId(id);
+  public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long farmId) {
+    List<Crop> crops = farmService.getCropsByFarmId(farmId);
 
     List<CropDto> cropsDto = crops.stream().map(crop -> new CropDto(
-        crop.getId(), crop.getName(), crop.getPlantedArea(), id
+        crop.getId(), crop.getName(), crop.getPlantedArea(), farmId
     )).toList();
 
     return new ResponseEntity<>(cropsDto, HttpStatus.OK);

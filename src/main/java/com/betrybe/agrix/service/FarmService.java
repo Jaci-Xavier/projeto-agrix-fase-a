@@ -61,8 +61,8 @@ public class FarmService {
    * Create crop.
    */
 
-  public Crop createCrop(Long id, Crop crop) {
-    Farm farm = this.getFarmById(id);
+  public Crop createCrop(Long farmId, Crop crop) {
+    Farm farm = this.getFarmById(farmId);
 
     crop.setFarm(farm);
 
@@ -78,8 +78,8 @@ public class FarmService {
    * Get crops by farmId.
    */
 
-  public List<Crop> getCropsByFarmId(Long id) {
-    Farm farm = this.getFarmById(id);
+  public List<Crop> getCropsByFarmId(Long farmId) {
+    Farm farm = this.getFarmById(farmId);
 
     return farm.getCrops();
   }
