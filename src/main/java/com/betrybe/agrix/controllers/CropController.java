@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -41,6 +42,21 @@ public class CropController {
     )).toList();
 
     return new ResponseEntity<>(cropsDto, HttpStatus.OK);
+  }
+
+  /**
+   * Get crops by id.
+   */
+
+  @GetMapping("/{id}")
+  public ResponseEntity<CropDto> getCropById(@PathVariable Long id) {
+    Crop crop = cropService.getCropById(id);
+
+    CropDto cropDto = new CropDto(
+        crop.getId(), crop.getName(), crop.getPlantedArea(), crop.getFarm().getId()
+    );
+
+    return new ResponseEntity<>(cropDto, HttpStatus.OK);
   }
 
 }
